@@ -21,7 +21,7 @@ import {Icon,Button} from 'vant'
 import {mapState} from "vuex";
 
 export default {
-  name: "Shopcart",
+  name: 'shopCart',
   components:{
     [Icon.name]:Icon,
     [Button.name]:Button,
@@ -45,14 +45,6 @@ export default {
       }
       else return 0
     },
-    // show1:{
-    //   // set(){
-    //   //
-    //   // },
-    //   // get(){
-    //   //
-    //   // }
-    // }
   },
   methods:{
     displayCart(){

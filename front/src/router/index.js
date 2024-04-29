@@ -80,15 +80,20 @@ const router1=new VueRouter({
                 {
                     name:'userhome',
                     path: '/userhome',
-                    component: userhome
+                    component: userhome,
+                    meta: {active: 0}
                 },
                 {
-                    path: '/userOrder',
-                    component: Userorder
+                    name: 'userorder',
+                    path: '/userorder',
+                    component: Userorder,
+                    meta: {active: 1}
                 },
                 {
+                    name: 'usermy',
                     path: '/usermy',
-                    component: Usermy
+                    component: Usermy,
+                    meta: {active: 2}
                 },
                 {
                     path: '/dishdetail',

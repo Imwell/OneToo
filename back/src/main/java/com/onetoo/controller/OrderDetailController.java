@@ -34,10 +34,6 @@ public class OrderDetailController {
             List<OrderDetail> list = orderDetailService.list(queryWrapper);
             orderDetailList.addAll(list);
         }
-
-
-
-
         return R.success(orderDetailList);
     }
 }

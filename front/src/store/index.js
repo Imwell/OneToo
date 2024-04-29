@@ -7,11 +7,11 @@ import shop from "@/store/shop";
 Vue.use(Vuex)
 
 export default new Vuex.Store(
-    {
-        modules:{
-           navigate_header:navigate_header,
-            dish:dish,
-            shop:shop
-        }
+  {
+    modules: {
+      navigate_header: navigate_header,
+      dish: dish,
+      shop: shop
     }
+  }
 )

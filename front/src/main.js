@@ -1,11 +1,12 @@
 import Vue from 'vue'
 import App from './App'
+require('./mock/front/api')
 
 Vue.config.productionTip = false
 
 import ElementUI from 'element-ui'
-
 import 'element-ui/lib/theme-chalk/index.css'
+import './assets/css/common.css'
 
 Vue.use(ElementUI)
 

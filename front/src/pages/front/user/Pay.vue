@@ -1,6 +1,5 @@
 <template>
-  <div>
-
+  <div class="page-pay">
     <van-nav-bar
         title="订单支付"
         left-text="返回"
@@ -33,26 +32,24 @@
         <van-radio name="1">微信</van-radio>
         <van-radio name="2">支付宝</van-radio>
       </van-radio-group>
-      <van-radio-group v-model="form.companyName" direction="horizontal">
-        选择门店：
-        <van-radio :name="name" v-for="name in companyNames" :key="name">{{ name }}</van-radio>
-      </van-radio-group>
     </van-form>
-    <div>
-      <div>
+    <div class="order-detail">
+      <div class="order-detail-title">
         订单明细：
       </div>
-      <div style="display: flex;margin-top: 20px;height: 70px" v-for="cart in orderCarts" :key="cart.id">
-        <img :src="getimage(cart.image)" style="width: 30%;">
-        <div style="display: flex;flex-direction: column;width: 40%;margin-left: 5px">
-          <span>{{ cart.name }}</span>
-          <span style="margin-top: 30px;color: orange">￥{{ cart.price }}</span>
-        </div>
-        <div style="margin-top: 40px;margin-left: 40px">
-          <span style="color: red">x {{ cart.number }}</span>
+      <div class="order-detail-body" v-for="cart in orderCarts" :key="cart.id">
+        <img :src="cart.image" width="100" height="100">
+        <div class="order-detail-right">
+          <div class="order-detail-content">
+            <span>{{ cart.name }}</span>
+            <span style="margin-top: 30px;color: orange">￥{{ cart.price }}</span>
+          </div>
+          <div class="order-detail-number">
+            <span style="color: red">x {{ cart.number }}</span>
+          </div>
         </div>
       </div>
-      <div style="display: flex">
+      <div class="order-detail-footer">
         <div style="color: #9d9d9d">总数量：{{ shopCount }}</div>
         <div style="margin-left: 200px;color: #9d9d9d">总价：￥ {{ sum }}</div>
       </div>
@@ -62,18 +59,16 @@
         v-model="form.remark"
         placeholder="备注信息"
     />
-    <van-button color="linear-gradient(to right, #ff9900, #ffcc33)" style="border-radius: 30px;margin-left: 30px"
-                @click="Paymemnt">支付
-    </van-button>
-
+    <van-submit-bar :price="sum" button-text="提交订单" @submit="Paymemnt" />
   </div>
 
 </template>
 
 <script>
-import {NavBar, Field, Radio, RadioGroup, DropdownMenu, DropdownItem, Button, Form} from "vant";
+import {NavBar, Field, Radio, RadioGroup, DropdownMenu, DropdownItem, Button, Form, SubmitBar} from "vant";
 import {mapState} from "vuex";
 import axios from "axios";
+import {addOrder, getName, showCart} from "@/api/front/api";
 
 export default {
   name: "Pay",
@@ -85,6 +80,7 @@ export default {
     [DropdownMenu.name]: DropdownMenu,
     [DropdownItem.name]: DropdownItem,
     [Button.name]: Button,
+    [SubmitBar.name]: SubmitBar,
     [Form.name]: Form
   },
   data() {
@@ -99,48 +95,32 @@ export default {
         amount: '',
         companyName: ''
       },
-      company: [],
-      companyNames: []
-
+      orderCarts: [],
     }
   },
   computed: {
-    ...mapState('shop', ['orderCarts', 'sum', 'shopCount'])
+    ...mapState('shop', ['sum', 'shopCount'])
   },
-  mounted() {
+  created() {
     this.init()
   },
   methods: {
     init() {
-      axios({
-        method: 'get',
-        url: '/company/getNames'
+      showCart({
+        userId: (JSON.parse(localStorage.getItem('userInfo'))).id
       }).then(resp => {
-        this.companyNames = resp.data.data
-        console.log(this.companyNames)
-      }).catch(() => {
-        this.$dialog.alert({
-          message: "出错了!"
-        })
+        this.orderCarts = resp.data.data
       })
     },
     onClickLeft() {
       this.$router.push('/userhome')
     },
-    getimage(image) {
-      return 'http://192.168.58.100:8080/common/download?name=' + image
-    },
     Paymemnt() {
-
       if (this.form.companyName) {
         this.$refs.form.validate().then(() => {
           this.form.amount = this.sum
           this.form.number = this.shopCount
-          axios({
-            method: 'post',
-            url: '/order/add',
-            data: this.form,
-          }).then(reps => {
+          addOrder().then(reps => {
             this.$dialog.alert({
               message: reps.data.data + "去订单查看"
             })
@@ -161,5 +141,47 @@ export default {
 </script>
 
 <style scoped>
+.van-radio-group.van-radio-group--horizontal {
+  margin: 1rem;
+}
 
+.order-detail {
+  margin: 0 1rem;
+}
+
+.order-detail-title {
+  margin-bottom: 1rem;
+}
+
+.order-detail-body {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: stretch;
+  margin: .5rem 0;
+}
+
+.order-detail-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.order-detail-footer {
+  display: flex;
+  margin-top: 1rem;
+}
+
+.order-detail-right {
+  display: flex;
+  width: 70%;
+  flex-direction: row;
+  justify-content: space-around;
+}
+.page-pay {
+  margin-bottom: 60px;
+}
+.pay-btn {
+
+}
 </style>

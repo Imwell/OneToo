@@ -103,9 +103,9 @@ export default {
             if(resp.data.data.identity==='1'){
               alert("您没有权限，请去用户的登录页面")
               this.$router.push('/userlogin')
+            } else {
+              this.$router.push('/home')
             }
-            else
-            this.$router.push('/home')
           } else {
             alert(resp.data.msg)
             _this.loading = false
