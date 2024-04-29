@@ -2,7 +2,6 @@ import Vue from 'vue'
 import VueRouter from "vue-router";
 import Home from "@/pages/back/Home";
 import Login from "@/pages/back/Login";
-import Company from "@/pages/back/Company";
 import Delivery from "@/pages/back/Delivery";
 import Dish from "@/pages/back/Dish/Dish";
 import Member from "@/pages/back/Member";
@@ -10,11 +9,10 @@ import Order from "@/pages/back/Order";
 import addDish from "@/pages/back/Dish/addDish";
 import updateDish from "@/pages/back/Dish/updateDish";
 import addCategory from "@/pages/back/Dish/addCategory";
-import Userhome from "@/pages/front/user/User";
+import User from "@/pages/front/user/User";
 import Userlogin from "@/pages/front/Userlogin";
 import Register from "@/pages/front/Register";
 import Forgetpassword from "@/pages/front/Forgetpassword";
-import User from "@/pages/front/user/User";
 import userhome from "@/pages/front/user/Userhome";
 import Userorder from "@/pages/front/user/Userorder";
 import Usermy from "@/pages/front/user/Usermy";
@@ -49,25 +47,21 @@ const router1=new VueRouter({
                   component:updateDish
                 },
                 {
-                    path:'company', //此处一定不要写：/news
-                    component:Company
-                },
-                {
-                    path:'delivery',//此处一定不要写：/message
+                    path:'delivery',
                     component:Delivery
                 },
                 {
-                    path:'dish', //此处一定不要写：/news
+                    path:'dish',
                     component:Dish
                 },
                 {
                     name:'member',
-                    path:'member', //此处一定不要写：/news
+                    path:'member',
                     component:Member,
 
                 },
                 {
-                    path:'order', //此处一定不要写：/news
+                    path:'order',
                     component:Order
                 },
             ]
